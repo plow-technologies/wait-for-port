@@ -7,6 +7,7 @@ import Text.Read (readMaybe)
 import Network.Simple.TCP (connect)
 import Control.Exception (catch, SomeException)
 import System.Environment (getArgs)
+import Control.Concurrent (threadDelay)
 
 data Option =
     Port Int
@@ -48,6 +49,7 @@ main :: IO ()
 main = do
   conf <- makeConfig . parseOptions <$> getArgs
   let loop = do
+        threadDelay $ 1000 * 1000
         isListening <- checkPort $ port conf
         if isListening == (waitFor conf == Listening)
            then loop
