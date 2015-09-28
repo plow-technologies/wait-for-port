@@ -33,12 +33,14 @@ parseOptions = go
         "closed" -> WaitFor Closed : parseOptions opts
         _ -> error $ "Unrecognized status: " ++ strst
     go (opt:_) = error $ "Unknown option: " ++ opt
+    go [] = []
 
 makeConfig :: [Option] -> Config
 makeConfig = go $ Config (error "Undefined port") (error "Undefined status")
   where
     go c (Port p:opts) = go (c { port = p }) opts
     go c (WaitFor st:opts) = go (c { waitFor = st }) opts
+    go c [] = c
 
 checkPort :: Int -> IO Bool
 checkPort p =
