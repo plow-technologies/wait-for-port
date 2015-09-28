@@ -52,6 +52,6 @@ main = do
         threadDelay $ 1000 * 1000
         isListening <- checkPort $ port conf
         if isListening == (waitFor conf == Listening)
-           then loop
-           else return ()
+           then return ()
+           else loop
   loop
